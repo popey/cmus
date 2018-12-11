@@ -1,0 +1,136 @@
+name: cmus
+base: core18 # the base snap is the execution environment for this snap
+version: '0.1' # just for humans, typically '1.2+git' or '1.3.2'
+summary: cmus — C* Music Player
+description: |
+        Small, fast and powerful console music player for Unix-like operating systems
+
+grade: stable
+confinement: strict
+
+parts:
+        cmus:
+                plugin: make
+                source: .
+                stage-packages:
+                        - libflac8
+                        - libx11-6
+                        - libxau6
+                        - libxdmcp6
+                        - libxext6
+                        - libxfixes3
+                        - libxrender1
+                        - libao4
+                        - libasound2
+                        - libasyncns0
+                        - libavcodec57
+                        - libavformat57
+                        - libavutil55
+                        - libbluray2
+                        - libcairo2
+                        - libcddb2
+                        - libcdio17
+                        - libcdio-cdda2
+                        - libchromaprint1
+                        - libcroco3
+                        - libcrystalhd3
+                        - libdatrie1
+                        - libdrm2
+                        - libfaad2
+                        - libfontconfig1
+                        - libfreetype6
+                        - libgdk-pixbuf2.0-0
+                        - libgme0
+                        - libgomp1
+                        - libgraphite2-3
+                        - libgsm1
+                        - libharfbuzz0b
+                        - libicu60
+                        - libjack0
+                        - libmad0
+                        - libmodplug1
+                        - libmp3lame0
+                        - libmp4v2-2
+                        - libmpcdec6
+                        - libmpg123-0
+                        - libnuma1
+                        - libogg0
+                        - libopenjp2-7
+                        - libopenmpt0
+                        - libopus0
+                        - libpango-1.0-0
+                        - libpangocairo-1.0-0
+                        - libpangoft2-1.0-0
+                        - libpixman-1-0
+                        - libpng16-16
+                        - libpulse0
+                        - libroar2
+                        - librsvg2-2
+                        - libsamplerate0
+                        - libshine3
+                        - libsnappy1v5
+                        - libsndfile1
+                        - libsoxr0
+                        - libspeex1
+                        - libssh-gcrypt-4
+                        - libswresample2
+                        - libthai0
+                        - libtheora0
+                        - libtwolame0
+                        - libva-drm2
+                        - libva-x11-2
+                        - libva2
+                        - libvdpau1
+                        - libvorbis0a
+                        - libvorbisenc2
+                        - libvorbisfile3
+                        - libvpx5
+                        - libwavpack1
+                        - libwebp6
+                        - libwebpmux3
+                        - libx264-152
+                        - libx265-146
+                        - libxcb-render0
+                        - libxcb-shm0
+                        - libxcb1
+                        - libxml2
+                        - libxvidcore4
+                        - libzvbi0
+                build-packages:
+                        - gcc
+                        - libncurses-dev
+                        - libncursesw5-dev
+                        - libpulse-dev
+                        - libasound2-dev
+                        - libroar-dev
+                        - libao-dev
+                        - libjack-dev
+                        - libsamplerate0-dev
+                        - libcdio-dev
+                        - libcdio-cdda-dev
+                        - libcddb2-dev
+                        - libopus-dev
+                        - libflac-dev
+                        - libvorbis-dev
+                        - libmpcdec-dev
+                        - libwavpack-dev
+                        - libmad0-dev
+                        - libavformat-dev
+                        - libavcodec-dev
+                        - libfaad-dev
+                        - libmp4v2-dev
+                        - libmodplug-dev
+                        - libmikmod2-dev
+                override-build: |
+                        ./configure prefix=$SNAPCRAFT_PART_INSTALL/usr
+                        make install
+apps:
+        cmus:
+                command: usr/bin/cmus
+                environment:
+                  LD_LIBRARY_PATH: "$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio/:$LD_LIBRARY_PATH"
+                plugs:
+                  - network
+                  - pulseaudio
+                  - home
+                  - removable-media
